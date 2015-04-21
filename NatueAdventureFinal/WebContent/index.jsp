@@ -5,6 +5,8 @@
 <title>NatureAdventure - inicio</title>
 </head>
 <body>
-
+<ul>
+      <li><a href="activity.html">Probar la aplicación en activty</a></li>
+    </ul>
 </body>
 </html>
