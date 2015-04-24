@@ -21,8 +21,12 @@ public class ActivityDao implements IActivityDao{
 
 	private Connection con;
 	
+	DataSource dataSource;
+	
 	@Autowired
-	private DataSource dataSource;
+	public void setDataSource(DataSource dataSource){
+		this.dataSource = dataSource;
+	}
 
 	public ActivityDao(){
 		super();
