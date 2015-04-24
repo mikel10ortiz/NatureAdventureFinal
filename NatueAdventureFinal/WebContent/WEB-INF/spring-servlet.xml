@@ -20,7 +20,6 @@
         base-package="es.uji.natureadventure.controller" />
     <context:component-scan
         base-package="es.uji.natureadventure.dao.db" />
-    <bean id="activityDao" class="es.uji.natureadventure.dao.db.ActivityDao"/>
     
    	<!-- Font de dades -->
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
