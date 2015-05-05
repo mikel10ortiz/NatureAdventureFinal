@@ -4,22 +4,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Gestionar actividades</title>
+<title>Gestionar actividades - Lista de actividades</title>
 </head>
 <body>
     <h1>Lista de actividades</h1>
     <table>
         <tr>
-            <th>NumFederat</th>
-            <th>Nom</th>
-            <th>Edat</th>
-            <th>Sexe</th>
+            <th>Nombre</th>
+            <th>Descripcion</th>
         </tr>
         <c:forEach items="${activities}" var="activity">
             <tr>
                 <td>${activity.name}</td>
-                <td><a href="update/${activity.name}.html">Edita</a>
-                <td><a href="delete/${activity.name}.html">Esborra</a>
+                <td>${activity.description}</td>
+                <td><a href="update/${activity.id}.html">Edita</a>
+                <td><a href="delete/${activity.id}.html">Esborra</a>
             </tr>
         </c:forEach>
     </table>

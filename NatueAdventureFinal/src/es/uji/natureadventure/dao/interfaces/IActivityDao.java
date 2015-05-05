@@ -6,8 +6,8 @@ import es.uji.natureadventure.domain.Activity;
 
 public interface IActivityDao {
 
-	public boolean saveActivity(Activity a);
-	public Activity updateActivity(Activity a);
+	public void saveActivity(Activity a);
+	public void updateActivity(Activity a);
 	public Activity getActivity(int id);
 	public List<Activity> getActivities();
 }

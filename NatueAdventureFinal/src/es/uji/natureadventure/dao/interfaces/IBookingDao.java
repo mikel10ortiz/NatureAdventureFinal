@@ -6,8 +6,8 @@ import es.uji.natureadventure.domain.Booking;
 
 public interface IBookingDao {
 
-	public boolean saveBooking(Booking b);
-	public Booking updateBooking(Booking b);
+	public void saveBooking(Booking b);
+	public void updateBooking(Booking b);
 	public Booking getBooking(int id);
 	public List<Booking> getBookings();
 }
