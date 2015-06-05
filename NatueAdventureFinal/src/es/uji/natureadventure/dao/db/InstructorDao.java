@@ -7,6 +7,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -56,18 +57,18 @@ public class InstructorDao implements IInstructorDao{
 
 	@Override
 	public void updateInstructor(Instructor i) {
-		this.jdbcTemplate.update("UPDATE Instructor SET"
-				+ "name = ?,"
-				+ "lastName = ?,"
-				+ "address = ?,"
-				+ "telephone = ?,"
-				+ "email = ?,"
-				+ "dateOfBirth = ?,"
-				+ "initialHour = ?,"
-				+ "finalHour = ?,"
-				+ "entryDate = ?,"
-				+ "username = ?,"
-				+ "password = ?"
+		this.jdbcTemplate.update("UPDATE Instructor SET "
+				+ "name = ?, "
+				+ "lastName = ?, "
+				+ "address = ?, "
+				+ "telephone = ?, "
+				+ "email = ?, "
+				+ "dateOfBirth = ?, "
+				+ "inittialHour = ?, "
+				+ "finalHour = ?, "
+				+ "entryDate = ?, "
+				+ "username = ?, "
+				+ "password = ? "
 				+ "WHERE idCard = ?",
 				i.getName(),
 				i.getLastName(),
@@ -96,6 +97,16 @@ public class InstructorDao implements IInstructorDao{
 
 		return this.jdbcTemplate.query("SELECT * FROM Instructor", new InstructorMapper());
 	}
+
+	@Override
+	public Instructor getInstructorByUsername(String username) {
+		try{
+			return this.jdbcTemplate.queryForObject("SELECT * FROM Instructor where username = ?",
+				new Object[] {username}, new InstructorMapper());
+		}catch(IncorrectResultSizeDataAccessException ex){
+			return null;
+		}
+	}
 	
 	private static final class InstructorMapper implements RowMapper<Instructor> {
 		
@@ -119,5 +130,4 @@ public class InstructorDao implements IInstructorDao{
 			
 		}
 	}
-
 }

@@ -19,8 +19,6 @@ import es.uji.natureadventure.domain.Activity;
 
 @Repository
 public class ActivityDao implements IActivityDao{
-
-	private Connection con;
 	
 	JdbcTemplate jdbcTemplate;
 	
@@ -90,8 +88,22 @@ public class ActivityDao implements IActivityDao{
 
 	@Override
 	public List<Activity> getActivities(){
-		return this.jdbcTemplate.query("select * from Activity"
-				, new ActivityMapper());
+		return this.jdbcTemplate.query("select * from Activity",
+				new ActivityMapper());
+	}
+	
+	@Override
+	public List<Activity> getActivitiesByKind(String kind){
+		return this.jdbcTemplate.query("SELECT * from Activity WHERE kind = ?", new Object[] {kind},
+				new ActivityMapper());
+	}
+	
+	@Override
+	public List<Activity> getActivitiesEnabledByKind(String kind){
+		return this.jdbcTemplate.query("SELECT * from Activity"
+				+ " WHERE kind = ?"
+				+ " AND enabled=true", new Object[] {kind},
+				new ActivityMapper());
 	}
 	
 	private static final class ActivityMapper implements RowMapper<Activity> {
@@ -101,7 +113,7 @@ public class ActivityDao implements IActivityDao{
 			a.setId(rs.getInt("id"));
 			a.setName(rs.getString("name"));
 			a.setDescription(rs.getString("description"));
-			a.setDuration(rs.getDouble("duration"));
+			a.setDuration(rs.getInt("duration"));
 			a.setKind(rs.getString("kind"));
 			a.setDifficulty(rs.getString("difficulty"));
 			a.setMinPersons(rs.getInt("minPersons"));

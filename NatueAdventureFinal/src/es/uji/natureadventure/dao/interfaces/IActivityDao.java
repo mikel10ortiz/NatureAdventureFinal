@@ -10,4 +10,6 @@ public interface IActivityDao {
 	public void updateActivity(Activity a);
 	public Activity getActivity(int id);
 	public List<Activity> getActivities();
+	public List<Activity> getActivitiesByKind(String kind);
+	public List<Activity> getActivitiesEnabledByKind(String kind);
 }

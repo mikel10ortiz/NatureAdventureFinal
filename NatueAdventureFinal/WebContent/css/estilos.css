@@ -1,0 +1,13 @@
+.formulario {
+	border-collapse: separate;
+	border-spacing: 5px 10px;
+}
+
+#logotipo{
+    width: 25%;
+    height: 5%;  
+}
+#foto{
+    width: 360px;
+    height: 200px;  
+}

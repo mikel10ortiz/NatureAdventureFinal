@@ -2,6 +2,7 @@ package es.uji.natureadventure.dao.interfaces;
 
 import java.util.List;
 
+import es.uji.natureadventure.aux.BookingActivityName;
 import es.uji.natureadventure.domain.Booking;
 
 public interface IBookingDao {
@@ -10,4 +11,6 @@ public interface IBookingDao {
 	public void updateBooking(Booking b);
 	public Booking getBooking(int id);
 	public List<Booking> getBookings();
+	public List<Booking> getBookingsByInstructor(String idCard);
+	public List<BookingActivityName> getBookingsActivityName();
 }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:beans="http://www.springframework.org/schema/beans"
+  xsi:schemaLocation="
+          http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans.xsd
+          http://www.springframework.org/schema/security
+          http://www.springframework.org/schema/security/spring-security.xsd">
+ 
+  <global-method-security pre-post-annotations="enabled"/> 
+    
+  <http pattern="/index.html*" security="none"/>
+    
+  <http auto-config="true">
+  	<intercept-url pattern="/admin/**" access="ROLE_ADMIN" />
+  	<intercept-url pattern="/staff/**" access="ROLE_STAFF" />
+  	<intercept-url pattern="/activity/**" access="ROLE_ADMIN" />
+  	<form-login login-page="/login/login.html" default-target-url="/authenticate/access.html" />
+  	<!-- <logout logout-url="/logout" logout-success-url="/adios.jsp"/> -->
+  </http>
+  
+  <authentication-manager alias="authenticationManager">
+   <authentication-provider user-service-ref="miUserServiceJDBC">
+   		<password-encoder ref="passwordEncoder"/>
+   	</authentication-provider>
+   	<!-- <authentication-provider>
+    <user-service>
+        <user authorities="ROLE_ADMIN" name="admin" password="a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3" />
+      </user-service> 
+      <password-encoder ref="passwordEncoder"/>
+    </authentication-provider> -->
+  </authentication-manager>
+  
+  <beans:bean id="miUserServiceJDBC"
+      class="org.springframework.security.core.userdetails.jdbc.JdbcDaoImpl">
+      <beans:property name="dataSource" ref="dataSource2" />
+      <beans:property name="usersByUsernameQuery"
+          value="SELECT login as username, password, true as enabled FROM usuarios WHERE login=?" />
+      <beans:property name="authoritiesByUsernameQuery"
+          value="SELECT login as username, rol as authority FROM roles WHERE login=?" />
+  </beans:bean>
+  
+  
+  <beans:bean id="passwordEncoder" 
+      class="org.springframework.security.authentication.encoding.ShaPasswordEncoder">
+      <beans:constructor-arg value="256"/>
+      <!-- <beans:property name="encodeHashAsBase64" value="true"/> -->
+  </beans:bean>
+  
+  <beans:bean id="dataSource2" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <beans:property name="driverClassName" value="org.postgresql.Driver"/>
+        <beans:property name="url" value="jdbc:postgresql://db-aules.uji.es/ei102714nov"/>
+        <beans:property name="username" value="ei102714nov"/>
+        <beans:property name="password" value="ei102714nov"/>
+ </beans:bean>
+  
+</beans:beans>

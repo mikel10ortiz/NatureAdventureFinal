@@ -11,5 +11,6 @@ public interface ISpecializationDao {
 	public void updateSpecialization(String instructor, int activity);
 	public List<Activity> getSpecializationsForInstructor(String instructor);
 	public List<Instructor> getInstructorsForActivity(int activity);
+	public List<Activity> getActivitiesNotSpecializated(String instructor);
 	
 }

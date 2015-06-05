@@ -5,7 +5,7 @@ public class Activity {
 	private int id;
 	private String name;
 	private String description;
-	private double duration;
+	private int duration;
 	private String kind;
 	private String difficulty;
 	private int minPersons;
@@ -53,12 +53,12 @@ public class Activity {
 	}
 
 
-	public double getDuration() {
+	public int getDuration() {
 		return duration;
 	}
 
 
-	public void setDuration(double duration) {
+	public void setDuration(int duration) {
 		this.duration = duration;
 	}
 

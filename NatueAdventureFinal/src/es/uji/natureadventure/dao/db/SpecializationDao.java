@@ -1,100 +1,98 @@
 package es.uji.natureadventure.dao.db;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
-import es.uji.natureadventure.dao.interfaces.ISpecializationDao;
+import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+
+import es.uji.natureadventure.dao.interfaces.IActivityDao;
+import es.uji.natureadventure.dao.interfaces.IInstructorDao;
+import es.uji.natureadventure.dao.interfaces.ISpecializationDao;
+import es.uji.natureadventure.domain.Activity;
+import es.uji.natureadventure.domain.Instructor;
+
+@Repository
 public class SpecializationDao implements ISpecializationDao {
 
-	private Connection con;
+	JdbcTemplate jdbcTemplate;
 	
-	public SpecializationDao(){
-		try{
-			con = dataSource.getConnection();
-		} catch( ClassNotFoundException | SQLException e) {
-			e.printStackTrace();
-		}
+	@Autowired
+	IActivityDao activityDao;
+	
+	@Autowired
+	IInstructorDao instructorDao;
+	
+	@Autowired
+	public void setDataSource(DataSource dataSource){
+		this.jdbcTemplate = new JdbcTemplate(dataSource);
+		
 	}
+
 	
+
+
 	@Override
 	public void saveSpecialization(String instructor, int activity) {
-		String sql = "INSERT INTO Specializtion (instructor, activity) VALUES(?,?);";
-		try{
-			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setString(1, instructor);
-			stmt.setInt(2, activity);
-			
-			stmt.executeUpdate();
-		} catch( SQLException e) {
-			e.printStackTrace();
-		}
+		this.jdbcTemplate.update("INSERT INTO Specialization values(?,?)", instructor, activity);
 	}
+
 
 	@Override
 	public void updateSpecialization(String instructor, int activity) {
-		String sql = "UPDATE Specialization SET activity = ? WHERE instructor = ?;";
-		try{
-			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setInt(1, activity);
-			stmt.setString(2, instructor);
-			
-			stmt.executeUpdate();
-		} catch( SQLException e) {
-			e.printStackTrace();
-		}
+		this.jdbcTemplate.update("UPDATE Specialization SET activity = ? "
+				+ "WHERE instructor = ?", activity, instructor);
 	}
+
 
 	@Override
 	public List<Activity> getSpecializationsForInstructor(String instructor) {
-		List<Activity> l = new ArrayList<Activity>();
-		Activity a = null;
-		IActivityDao aDao = new ActivityDao();
-		ResultSet rs = null;
-		String sql = "SELECT * FROM Specialization WHERE instructor = ?;";
-		try{
-			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setString(1, instructor);
-			
-			rs = stmt.executeQuery();
-			if(rs != null){
-				while(rs.next()){
-					a = aDao.getActivity(rs.getInt("activity"));
-					l.add(a);
-				}
-			}
-		} catch( SQLException e) {
-			e.printStackTrace();
-		}
-		return l;
+		return this.jdbcTemplate.query("SELECT activity as idActivity, instructor FROM specialization WHERE instructor = ?",
+				new Object[] {instructor}, new SpecializationActivityMapper());
 	}
+
 
 	@Override
 	public List<Instructor> getInstructorsForActivity(int activity) {
-		List<Instructor> l = new ArrayList<Instructor>();
-		Instructor i = null;
-		IInstructorDao iDao = new InstructorDao();
-		ResultSet rs = null;
-		String sql = "SELECT * FROM Specialization WHERE activity = ?;";
-		try{
-			PreparedStatement stmt = con.prepareStatement(sql);
-			stmt.setInt(1, activity);
+		return this.jdbcTemplate.query("SELECT * FROM specialization WHERE activity = ?",
+				new Object[] {activity}, new SpecializationInstructorMapper());
+	}
+	
+	@Override
+	public List<Activity> getActivitiesNotSpecializated(String instructor){
+		return this.jdbcTemplate.query("select id as idActivity from activity where id not in( "
+										+ "select activity from specialization where instructor = ?)", 
+				new Object[] {instructor}, new SpecializationActivityMapper());
+	}
+	
+	
+	
+	private class SpecializationActivityMapper implements RowMapper<Activity>{
+
+		@Override
+		public Activity mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Activity activity;
 			
-			rs = stmt.executeQuery();
-			if(rs != null){
-				while(rs.next()){
-					i = iDao.getInstructor(rs.getString("idCard"));
-					l.add(i);
-				}
-			}
-		} catch( SQLException e) {
-			e.printStackTrace();
+			activity = activityDao.getActivity(rs.getInt("idActivity"));
+			return activity;
 		}
-		return l;
+		
+	}
+	
+	private class SpecializationInstructorMapper implements RowMapper<Instructor>{
+
+		@Override
+		public Instructor mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Instructor instructor;
+			instructor = instructorDao.getInstructor(rs.getString("instructor"));
+			return instructor;
+		}
+		
 	}
 
 }

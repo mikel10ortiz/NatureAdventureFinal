@@ -9,5 +9,6 @@ public interface IInstructorDao {
 	public void saveInstructor(Instructor i);
 	public void updateInstructor(Instructor i);
 	public Instructor getInstructor(String idCard);
+	public Instructor getInstructorByUsername(String username);
 	public List<Instructor> getInstructors();
 }

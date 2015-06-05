@@ -32,4 +32,8 @@
  	<!-- Fitxer de Propietats JDBC, localització relativa al classpath -->
  	<context:property-placeholder location="classpath:jdbc.properties"/> 
         
+ 	<bean id="messageSource"
+      class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+      <property name="basename" value="classpath:org/springframework/security/messages"/>
+	</bean>
 </beans>

@@ -1,7 +1,6 @@
 package es.uji.natureadventure.domain;
 
-import java.sql.Date;
-import java.sql.Time;
+import java.util.Date;
 
 public class Booking {
 	 
@@ -9,7 +8,7 @@ public class Booking {
 	private int activityId;
 	private Date bookingDate;
 	private Date activityDate;
-	private Time hour;
+	private Date hour;
 	private String clientIdCard;
 	private String clientName;
 	private String clientPhone;
@@ -62,11 +61,11 @@ public class Booking {
 		this.activityDate = activityDate;
 	}
 
-	public Time getHour() {
+	public Date getHour() {
 		return hour;
 	}
 
-	public void setHour(Time hour) {
+	public void setHour(Date hour) {
 		this.hour = hour;
 	}
 

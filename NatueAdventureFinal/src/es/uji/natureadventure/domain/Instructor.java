@@ -1,6 +1,6 @@
 package es.uji.natureadventure.domain;
 
-import java.sql.Date;
+import java.util.Date;
 import java.sql.Time;
 import java.util.List;
 
@@ -13,21 +13,22 @@ public class Instructor {
 	private String email;
 	private String idCard;
 	private Date dateOfBirth;
-	private Time inittialHour;
-	private Time finalHour;
+	private Date inittialHour;
+	private Date finalHour;
 	private Date entryDate;
 	private String username;
 	private String password;
-	private List<Activity> qualifiedFor;
+	//private List<Activity> qualifiedFor;
 	
 	public Instructor(){
 		
 	}
 
 	public Instructor(String name, String lastName, String address,
-			String telephone, String email, String idCard, Date age,
-			Time initialHour, Time finalHour, Date entryDate, String username,
-			String password, List<Activity> qualifiedFor) {
+			String telephone, String email, String idCard, Date dateOfBirth,
+			Time initialHour, Time finalHour, Date entryDate, String username
+			//String password, List<Activity> qualifiedFor
+			) {
 		super();
 		this.name = name;
 		this.lastName = lastName;
@@ -35,13 +36,13 @@ public class Instructor {
 		this.telephone = telephone;
 		this.email = email;
 		this.idCard = idCard;
-		this.dateOfBirth = age;
+		this.dateOfBirth = dateOfBirth;
 		this.inittialHour = initialHour;
 		this.finalHour = finalHour;
 		this.entryDate = entryDate;
 		this.username = username;
 		this.password = password;
-		this.qualifiedFor = qualifiedFor;
+		//this.qualifiedFor = qualifiedFor;
 	}
 
 	public String getName() {
@@ -100,19 +101,19 @@ public class Instructor {
 		this.dateOfBirth = age;
 	}
 
-	public Time getInittialHour() {
+	public Date getInittialHour() {
 		return inittialHour;
 	}
 
-	public void setInittialHour(Time inittialHour) {
+	public void setInittialHour(Date inittialHour) {
 		this.inittialHour = inittialHour;
 	}
 
-	public Time getFinalHour() {
+	public Date getFinalHour() {
 		return finalHour;
 	}
 
-	public void setFinalHour(Time finalHour) {
+	public void setFinalHour(Date finalHour) {
 		this.finalHour = finalHour;
 	}
 
@@ -140,13 +141,13 @@ public class Instructor {
 		this.password = password;
 	}
 
-	public List<Activity> getQualifiedFor() {
+	/*public List<Activity> getQualifiedFor() {
 		return qualifiedFor;
 	}
 
 	public void setQualifiedFor(List<Activity> qualifiedFor) {
 		this.qualifiedFor = qualifiedFor;
 	}
-	
+	*/
 	
 }
