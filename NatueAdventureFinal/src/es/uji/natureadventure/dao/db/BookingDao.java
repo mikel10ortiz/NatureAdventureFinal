@@ -11,7 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import es.uji.natureadventure.aux.BookingActivityName;
+import es.uji.natureadventure.auxiliars.BookingActivityName;
 import es.uji.natureadventure.dao.interfaces.IBookingDao;
 import es.uji.natureadventure.domain.Booking;
 

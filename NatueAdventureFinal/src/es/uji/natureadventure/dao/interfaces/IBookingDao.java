@@ -2,7 +2,7 @@ package es.uji.natureadventure.dao.interfaces;
 
 import java.util.List;
 
-import es.uji.natureadventure.aux.BookingActivityName;
+import es.uji.natureadventure.auxiliars.BookingActivityName;
 import es.uji.natureadventure.domain.Booking;
 
 public interface IBookingDao {

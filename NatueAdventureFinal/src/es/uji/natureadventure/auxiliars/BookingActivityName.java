@@ -1,4 +1,4 @@
-package es.uji.natureadventure.aux;
+package es.uji.natureadventure.auxiliars;
 
 import java.util.Date;
 
