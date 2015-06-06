@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import es.uji.natureadventure.dao.interfaces.IActivityDao;
 import es.uji.natureadventure.dao.interfaces.IBookingDao;
@@ -100,7 +101,8 @@ public class AdminController {
 	
 	@RequestMapping(value="/activity/add", method = RequestMethod.POST)
 	public String processAndSubmit(@ModelAttribute("activity") Activity activity,
-									BindingResult bindingResult, Model model){
+									BindingResult bindingResult, Model model,
+									RedirectAttributes redirectAttr){
 		
 		model.addAttribute("category", "activity");
 		ActivityValidator activityValidator = new ActivityValidator();
@@ -108,6 +110,7 @@ public class AdminController {
 		if(bindingResult.hasErrors())
 			return "admin/activityadd";
 		activityDao.saveActivity(activity);
+		redirectAttr.addAttribute("ok", "La actividad se ha creado correctamente");
 		return "redirect:../activity.html";
 	}
 	
@@ -122,11 +125,13 @@ public class AdminController {
 	@RequestMapping(value="/activity/update/{id}", method = RequestMethod.POST)
 	public String processUpdsateSubmit(@PathVariable int id,
 										@ModelAttribute("activity") Activity activity,
-										BindingResult bindingResult, Model model){
+										BindingResult bindingResult, Model model,
+										RedirectAttributes redirectAttr){
 		model.addAttribute("category", "activity");
 		if(bindingResult.hasErrors())
 			return "admin/activityupdate";
 		activityDao.updateActivity(activity);
+		redirectAttr.addAttribute("ok", "La actividad se ha actualizado correctamente");
 		return "redirect:../../activity.html";
 	}
 	
@@ -187,7 +192,8 @@ public class AdminController {
 	@RequestMapping(value = "/instructor/update/{idCard}", method = RequestMethod.POST)
 	public String processUpdateSubmit(@PathVariable String idCard,
 										@ModelAttribute("instructor") Instructor instructor,
-										BindingResult bindingResult, Model model){
+										BindingResult bindingResult, Model model,
+										RedirectAttributes redirectAttr){
 		
 		if(bindingResult.hasErrors()){
 			model.addAttribute("instructor", instructor);
@@ -200,21 +206,24 @@ public class AdminController {
 			return "admin/instructorupdate";
 		}
 		
-		instructorDao.updateInstructor(instructor);		
+		instructorDao.updateInstructor(instructor);
+		redirectAttr.addAttribute("ok", "El instructor se ha modificado correctamente");
 		return "redirect:../update/" + idCard + ".html";		
 	}
 	
 	@RequestMapping("/instructor/addspecialization/{idCard}/{idActivity}")
 	public String addSpecializationToInstructor(@PathVariable String idCard, 
-												Model model, @PathVariable int idActivity){
+												Model model, @PathVariable int idActivity,
+												RedirectAttributes redirectAttr){
 		model.addAttribute("category", "instructor");
 		specializationDao.saveSpecialization(idCard, idActivity);
+		redirectAttr.addAttribute("ok", "La especialización se ha añadido correctamente");
 		return "redirect:../../update/" + idCard + ".html";
 	}
 	
 	@RequestMapping(value = "/instructor/updatepassword/{idCard}", method = RequestMethod.POST)
 	public String updatePassword(@ModelAttribute("userApp") UserApp user, @PathVariable String idCard,
-								Model model){
+								Model model, RedirectAttributes redirectAttr){
 		
 		model.addAttribute("category", "instructor");
 		String passwordCifrado = this.passwordEncoder.encodePassword(user.getPassword(),"");
@@ -226,7 +235,8 @@ public class AdminController {
 		}
 		else
 			userDetailDao.updateUser(user);
-			
+		
+		redirectAttr.addAttribute("ok", "El password se ha modificado correctamente");
 		return "redirect:../update/" + idCard + ".html";
 	}
 	

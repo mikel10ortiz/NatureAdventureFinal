@@ -64,10 +64,23 @@ public class FrontController {
 			@ModelAttribute("activity") Activity activity,
 			@ModelAttribute("booking") Booking booking, BindingResult bindingResult){
 		
+		int bookingSavedId;
 		if(bindingResult.hasErrors()){
 			return "public/bookingactivity";
 		}
-		bookingDao.saveBooking(booking);
-		return "redirect:../public/bookingconfirm.html";
+		bookingSavedId = bookingDao.saveBooking(booking);
+		return "redirect:" + activityId + "/" + bookingSavedId + "/bookingconfirm.html";
+	}
+	
+	@RequestMapping("/booking/{activityId}/{bookingId}/bookingconfirm")
+	public String bookingConfirm(@PathVariable int activityId, @PathVariable int bookingId,
+			Model model){
+		
+		Activity activity = activityDao.getActivity(activityId);
+		Booking booking = bookingDao.getBooking(bookingId);
+		
+		model.addAttribute("activity", activity);
+		model.addAttribute("booking", booking);
+		return "public/bookingconfirm";
 	}
 }

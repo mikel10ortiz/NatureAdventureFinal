@@ -7,6 +7,13 @@
 	<a href="instructor/add.html" class="glyphicon glyphicon-plus" id="add">Añadir instructor</a>
 	</h1>
           
+    <c:choose>
+    	<c:when test="${ok not null}">
+    		<div class="alert alert-success">
+    			<c:out value="${ok}" />
+    		</div>
+    	</c:when>    
+    </c:choose>
 	<div class="table-responsive">
 	    <table class="table table-striped">
 	    <thead>

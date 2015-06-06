@@ -22,7 +22,7 @@
                 <td>${booking.activityName}</td>
                 <td>${booking.clientName}</td>
                 <td><fmt:formatDate value="${booking.activityDate}" type="both" 
-      pattern="MM-dd-yyyy" /></td>
+      pattern="dd-MM-yyyy" /></td>
                 <!-- <td><a href="update/${booking.bookingId}.html">Edita</a>
                 -->
                 <td><a href="booking/delete/${booking.bookingId}.html" class="glyphicon glyphicon-trash"></a>

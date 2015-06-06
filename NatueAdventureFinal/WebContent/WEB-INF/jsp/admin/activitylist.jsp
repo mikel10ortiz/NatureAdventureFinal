@@ -7,7 +7,14 @@
 	<a href="activity/add.html" class="glyphicon glyphicon-plus" id="add">Añadir actividad</a>
     </h1>
           <div class="clear"></div>
-          
+    
+    <c:choose>
+    	<c:when test="${ok not null}">
+    		<div class="alert alert-success">
+    			<c:out value="${ok}" />
+    		</div>
+    	</c:when>    
+    </c:choose>
 	<div class="table-responsive">
 	    <table class="table table-striped">
 	    	<thead>

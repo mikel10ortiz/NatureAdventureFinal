@@ -5,6 +5,13 @@
 <t:plantilla_admin title="Gestionar instructores - Modificar instructor">
 <jsp:body>
 	<h1 class="page-header"> Modificar instructor </h1>
+	<c:choose>
+    	<c:when test="${ok not null}">
+    		<div class="alert alert-success">
+    			<c:out value="${ok}" />
+    		</div>
+    	</c:when>    
+    </c:choose>
 	<div id="content">
 		<ul id="tabs" class="nav nav-tabs" data-tabs="tabs">
 					<li class="active">
